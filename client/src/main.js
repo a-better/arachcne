@@ -8,12 +8,16 @@ window.url = 'http://'+document.domain + ':'+location.port + '/';
    var button = document.getElementById("kakaoLink");
    var oldRoomId = '';
     $('.gamemodal').on("click", function () {
+      
       engine.room.setGame($(this).data('id'));
       console.log(engine.room.game);
       // $('#addBookDialog').modal('show');
     });
 
    $('.linkbtn').on('click', function(){
+
+     console.log("fuckyou");
+     
      var messenger = this.id;
      engine.room.setMessenger(messenger);
      console.log(engine.room.messenger);
@@ -55,17 +59,17 @@ window.url = 'http://'+document.domain + ':'+location.port + '/';
       'text'  : ""
     };
     if(game == 'catchmind'){
-       gameInfo.image = 'images/catchmind.jpg';
+       gameInfo.image = 'img/catchmind.jpg';
        gameInfo.label = '캐치마인드';
        gameInfo.text = '캐치마인드'
     }
     else if(game == 'mafia'){
-       gameInfo.image = 'images/mafia.jpg';
+       gameInfo.image = 'img/mafia.jpg';
        gameInfo.label = '마피아';
        gameInfo.text = '마피아'
     }
     else if(game == '2048'){
-       //gameInfo.image = 'images/mafia.jpg';
+       gameInfo.image = 'img/2048.jpg';
        gameInfo.label = '2048';
        gameInfo.text = '2048'
     }
