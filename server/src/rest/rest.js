@@ -61,23 +61,28 @@ Rest.prototype = {
 		});
 	},
 	setRankAPI : function(){
-		app.put('/rank/:game', function(){
+		app.put('/rank/:game', function(req, res){
 			var gameTitle = req.params.game;
 			var body = req.body;
+			body["TITLE"] = gameTitle;
 			var userId = body.ID;
 			var messenger = body.MESSENGER;
 			var Score = req.body.SCORE;
-			delete req.body[SCORE];
+			delete req.body["SCORE"];
 			var USER_SEQID;
 			var GAME_SEQID;
 
 			rest.gameService.searchByTitle(body).then(function(result){
+
 				GAME_SEQID = result[0].SEQ_ID; 
+				console.log(GAME_SEQID);
 				return rest.userService.search(req.body);
 			}).then(function(result){
 				USER_SEQID = result[0].SEQ_ID;
+				console.log(USER_SEQID);
 				return rest.rankService.search(USER_SEQID, GAME_SEQID);
 			}).then(function(result){
+				console.log(result);
 				if(result.length == 0){
 					return rest.rankService.create(USER_SEQID, GAME_SEQID, Score);
 				}
@@ -86,8 +91,8 @@ Rest.prototype = {
 				}
 			}).then(function(result){
 				res.send(200);
-			}, function(err){
-				console.err('error in saving score' + err);
+			}, function(error){
+				console.log('error in saving score' + error);
 				throw res.send(400); 
 			});
 
@@ -95,7 +100,15 @@ Rest.prototype = {
 	},
 	setLinkAPI : function(){
 		//create Link REST API
-		//app.post();
+		app.get('/link/:game', function(req, res){
+			var game = req.params.game;
+			var data = {
+				"game" : game
+			};
+			rest.linkService.createLink(data).then(function(result){
+				res.send(result + '');
+			});
+		});
 		app.put('/link/:id', function(req, res){
 			var id = req.params.id;
 			if(rest.linkService.checkLink(id)){

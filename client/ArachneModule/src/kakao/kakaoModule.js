@@ -1,7 +1,13 @@
-var KakaoModule = function(){
+var KakaoModule = function(arachne){
 	this.kakaoScript;
 	this.kakao;
-	kakaoModule = this;
+
+  this.ID;
+  this.NICKNAME;
+  this.THUMBNAIL_IMAGE;
+  this.MESSENGER = 'kakao';
+  this.arachne = arachne;
+  kakaoModule = this;
 }
 
 KakaoModule.prototype.constructor = KakaoModule;
@@ -12,35 +18,12 @@ KakaoModule.prototype = {
   		this.kakaoScript = document.createElement('script');
   		this.kakaoScript.src = '//developers.kakao.com/sdk/js/kakao.min.js';
   		firstScript.parentNode.insertBefore(this.kakaoScript, firstScript);
-  		alert('kakaoScript is loaded');
   		console.log(kakaoModule.kakaoScript);
 	},
-	setKakao : function(){
+	login : function(){
   		this.kakaoScript.onload = function () {
-  			this.kakao = Kakao;
-  			this.kakao.init('d875beadbeaca371a2a21d629017b4f4');
-  		};      
-
-	},
-	sendKakaoLink : function(){
-		this.kakaoScript.onload = function () {	
-  			kakaoModule.kakao.Link.sendTalkLink({
-    	      label: '2048',
-    	      image: {
-    	        src: 'test',
-    	        width: '300',
-    	        height: '200'
-    	      },
-    	      webButton: {
-    	        text: 'test',
-    	        url:  'test'// 앱 설정의 웹 플랫폼에 등록한 도메인의 URL이어야 합니다.
-    	      }
-    	    });
-    	} 
-	},
-  login : function(){
-    this.kakaoScript.onload = function(){
-      kakaoModule.kakao.Auth.login({
+  			Kakao.init('d875beadbeaca371a2a21d629017b4f4');
+      Kakao.Auth.login({
        success: function(authObj) {
        //로그인 성공시, API를 호출합니다.
         Kakao.API.request({
@@ -59,25 +42,39 @@ KakaoModule.prototype = {
        fail: function(err) {
           alert(JSON.stringify(err));
         }
-      });
-    }
-  },
+      });        
+  		};      
+
+	},
+	sendKakaoLink : function(url, text){
+  	Kakao.Link.sendTalkLink({
+        label: kakaoModule.arachne.game.title,
+        image: {
+          src: kakaoModule.arachne.game.image,
+          width: '300',
+          height: '200'
+        },
+        webButton: {
+          text: text,
+          url:  url// 앱 설정의 웹 플랫폼에 등록한 도메인의 URL이어야 합니다.
+        }
+      }); 	
+	},
   registerUser : function(user_data){
     var domain = document.domain;
     var port = location.port;
     var url = "http://"+domain+":"+port;
     var json_data = JSON.parse(user_data);
-    var ID = json_data.id;
-    var NICKNAME = json_data.properties.nickname;
-    var THUMBNAIL_IMAGE = json_data.properties.thumbnail_image;
-    var MESSENGER = 'kakao'
+    kakaoModule.ID = json_data.id;
+    kakaoModule.NICKNAME = json_data.properties.nickname;
+    kakaoModule.THUMBNAIL_IMAGE = json_data.properties.thumbnail_image;
+    kakaoModule.MESSENGER = 'kakao';
     var body = {
-      "ID" : ID,
-      "NICKNAME" : NICKNAME,
-      "THUMBNAIL_IMAGE" : THUMBNAIL_IMAGE,
-      "MESSENGER" : 'kakao'
+      "ID" : kakaoModule.ID,
+      "NICKNAME" : kakaoModule.NICKNAME,
+      "THUMBNAIL_IMAGE" : kakaoModule.THUMBNAIL_IMAGE,
+      "MESSENGER" : kakaoModule.MESSENGER
     }
-    alert(body);
   
     $.ajax({
       url: "http://"+domain+":"+port +'/user',
@@ -85,13 +82,12 @@ KakaoModule.prototype = {
       datatype : 'json',
       data: body,
       success: function(result) {
-        alert(result);
-        redirect(user_data);
       },
       error: function (XMLHttpRequest, textStatus, errorThrown) {
         alert(textStatus);
       }
-  });
+    });
+  }
 
 }
 

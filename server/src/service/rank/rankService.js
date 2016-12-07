@@ -21,7 +21,7 @@ RankService.prototype.create = function(USER_SEQID, GAME_SEQID, Score){
 		"GAME_SEQID" : GAME_SEQID,
 		"SCORE"		 : Score	
 	}
-	return mySqlDAO.create(query, values);	
+	return mySqlDAO.insert(query, values);	
 }
 
 RankService.prototype.update = function(USER_SEQID, GAME_SEQID, Score){ 
