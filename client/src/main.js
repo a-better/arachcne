@@ -55,19 +55,24 @@ window.url = 'http://'+document.domain + ':'+location.port + '/';
       'text'  : ""
     };
     if(game == 'catchmind'){
-       gameInfo.image = 'img/catchmind.jpg';
+       gameInfo.image = 'images/catchmind.jpg';
        gameInfo.label = '캐치마인드';
        gameInfo.text = '캐치마인드'
     }
     else if(game == 'mafia'){
-       gameInfo.image = 'img/mafia.jpg';
+       gameInfo.image = 'images/mafia.jpg';
        gameInfo.label = '마피아';
        gameInfo.text = '마피아'
     }
     else if(game == '2048'){
-       gameInfo.image = 'img/2048.jpg';
+       gameInfo.image = 'img/2048b.png';
        gameInfo.label = '2048';
        gameInfo.text = '2048'
+    }
+    else if(game == 'Hetrix'){
+      gameInfo.image = 'images/Hextris.jpg';
+      gameInfo.label = 'Hextris';
+      gameInfo.text = 'Hextris';
     }
     return gameInfo;
   }
