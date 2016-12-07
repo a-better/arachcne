@@ -110,6 +110,11 @@
 	       gameInfo.label = '마피아';
 	       gameInfo.text = '마피아'
 	    }
+	    else if(game == '2048'){
+	       //gameInfo.image = 'images/mafia.jpg';
+	       gameInfo.label = '2048';
+	       gameInfo.text = '2048'
+	    }
 	    return gameInfo;
 	  }
 	  var sendKakaoLink  = function (gameInfo){
@@ -126,11 +131,6 @@
 	          }
 	        }); 
 	   }
-
-
-
-
-
 
 /***/ },
 /* 1 */

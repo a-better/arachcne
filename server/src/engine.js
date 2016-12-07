@@ -1,8 +1,8 @@
 var Network = require('./network/network');
-var Link = require('../rest/link/link');
+var LinkService = require('./service/link/linkService');
 var Engine = function(){
 	this.network = new Network(this);
-	this.link = new Link();
+	this.linkService = new LinkService();
 	engine = this;
 };
 

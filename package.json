@@ -4,6 +4,7 @@
   "description": "web game plaform",
   "main": "app.js",
   "dependencies": {
+    "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
     "chai": "^3.5.0",
     "cors": "^2.8.1",
@@ -11,7 +12,10 @@
     "gulp": "^3.9.1",
     "jade": "^1.11.0",
     "multer": "^1.2.0",
+    "mysql": "^2.12.0",
     "orientjs": "^2.2.2",
+    "promise": "^7.1.1",
+    "promise-mysql": "^2.0.0",
     "request": "^2.78.0",
     "socket.io": "^1.4.8",
     "supervisor": "^0.11.0",

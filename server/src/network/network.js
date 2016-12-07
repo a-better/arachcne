@@ -1,3 +1,4 @@
+var Promise = require('promise');
 var Network = function(engine){
 	network = this;
 	this.engine = engine;
@@ -16,8 +17,12 @@ Network.prototype = {
 		});
 	},
 	onCreateLink : function(data){
-		var roomId = network.engine.link.createLink(data);
-		io.to(this.id).emit("receive link", {id : roomId});
+		var socket = this;
+		network.engine.linkService.createLink(data).then(function(result){
+			console.log('network line 21 : ' + result);
+			io.to(socket.id).emit("receive link", {id : result});
+		});
+		
 	}
 };
 
