@@ -102,7 +102,7 @@
 
                     <li><a href="#">Game</a>
                         <ul>
-                            <li><a href="#">Free</a></li>
+                            <li id='free_toggle'><a href="#">Free</a></li>
                             <li><a href="#">Early Adapter</a></li>
                             <li><a href="#">Demo Version</a></li>
                             <li><a href="#">Virtual Reality</a>
@@ -152,23 +152,24 @@
             <div class="container">
                 <div class="row">
                 
-                    <div id="carosel-game-list"></div>
+                    <div id="tumble">
+                        <div class="carosel-game-list">
+                    </div>
                     
+                    <!--
+                    변경되는 리스트~~~
+                    <div id="mafia-sum"></div>
 
-                    <div id="targetDivTag"></div>
-
-                    <script type="text/javascript">
-                        
-                        $("")
-
-                    </script>
-
+                    <div id="order-list"></div>
+                    -->
 
                 </div>
             </div>
         <div id="push">
         </div>
 
+
+        
 
     </div>
     <!--carosel & gamepage-->
@@ -231,11 +232,25 @@
         });
         });
 
-     $('#carosel-game-list').load("./carousel.html .carousel-container",function()
+     $('.carosel-game-list').load("./carousel.html .carousel-container",function()
      {
      });
 
+     $('.order-list').load("./orderlist.html .container",function()
+     {
+     });
 
+     $('.mafia-sum').load("./mafia_sum.html .container",function()
+     {
+     });
+
+     $('#free_toggle').click(function(){
+        console.log("fuckyou");
+        $('#tumble').removeClass('carosel-game-list');
+        //$('#tumble').addClass('order-list');
+
+
+     });
     </script>
 
 

@@ -2,6 +2,12 @@
  * arachne css tag
  */
 
+.image_750x450{
+  width: 100%; max-width: 750px; max-height: 450px; vertical-align: middle;
+  min-height: 450px: 
+  overflow: hidden;
+}
+
 .image_sum{
   max-width: 80% ;
 width: expression(this.width > 200 ? 200: true) ;
