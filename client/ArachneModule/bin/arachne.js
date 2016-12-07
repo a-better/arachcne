@@ -44,61 +44,183 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var KakaoLink = __webpack_require__(1)
+	var KakaoModule = __webpack_require__(1);
+	var Game = __webpack_require__(2);
+	var domain = document.domain;
+	var port = location.port;
+	var url = "http://"+domain+":"+port;
 
-	var kakaoLink = new KakaoLink();
-	kakaoLink.setScript();
-	kakaoLink.setKakao();
-	kakaoLink.sendKakaoLink();
+	window.Arachne = function(){
+		this.kakaoModule = new KakaoModule(this);
+		this.game = new Game();
+		arachne = this;
+	}
+	Arachne.prototype.constructor = Arachne;
+	Arachne.prototype = {
+		login : function(messenger){
+			if(messenger == 'kakao'){
+				this.kakaoModule.setScript();
+				this.kakaoModule.login();
+			}
+		},
+		sendMessage : function(messenger){
+			if(messenger == 'kakao'){
+				 $.ajax({
+	    		  url: "http://"+domain+":"+port +'/link/' + arachne.game.title,
+	    		  type: 'GET',
+	    		  datatype : 'json',
+	    		  success: function(result) {	    
+	    		    var url = "http://"+domain+":"+port +'/'+result;
+	    		    arachne.kakaoModule.sendKakaoLink(url, arachne.game.desc);
+	    		  },
+	    		  error: function (XMLHttpRequest, textStatus, errorThrown) {
+	    		    alert(textStatus);
+	    		  }
+	    		});
+				
+			}
+		},
+		sendScore : function(score){
+			var body = {
+				"ID" : arachne.kakaoModule.ID,
+				"MESSENGER" : arachne.kakaoModule.MESSENGER,
+				"SCORE" : score
+			};
+			$.ajax({
+	    	  url: "http://"+domain+":"+port +'/rank/' + arachne.game.title,
+	    	  type: 'PUT',
+	    	  datatype : 'json',
+	    	  data : body,
+	    	  success: function(result) {	    
+	    	  	if(result == 'OK'){
+	    	  		alert('점수 저장이 완료 되었습니다.');
+	    	  	}
+	    	  },
+	    	  error: function (XMLHttpRequest, textStatus, errorThrown) {
+	    	    alert(textStatus);
+	    	  }
+	    	});
+		}
+	}
+
+	module.exports = Arachne;
 
 
 /***/ },
 /* 1 */
 /***/ function(module, exports) {
 
-	var KakaoLink = function(){
+	var KakaoModule = function(arachne){
 		this.kakaoScript;
 		this.kakao;
-		kakaoLink = this;
+
+	  this.ID;
+	  this.NICKNAME;
+	  this.THUMBNAIL_IMAGE;
+	  this.MESSENGER = 'kakao';
+	  this.arachne = arachne;
+	  kakaoModule = this;
 	}
 
-	KakaoLink.prototype.constructor = KakaoLink
+	KakaoModule.prototype.constructor = KakaoModule;
 
-	KakaoLink.prototype = {
+	KakaoModule.prototype = {
 		setScript : function(){
 	  		var firstScript = document.getElementsByTagName('script')[0];
 	  		this.kakaoScript = document.createElement('script');
 	  		this.kakaoScript.src = '//developers.kakao.com/sdk/js/kakao.min.js';
 	  		firstScript.parentNode.insertBefore(this.kakaoScript, firstScript);
-	  		alert('kakaoScript is loaded');
-	  		console.log(kakaoLink.kakaoScript);
+	  		console.log(kakaoModule.kakaoScript);
 		},
-		setKakao : function(){
+		login : function(){
 	  		this.kakaoScript.onload = function () {
-	  			this.kakao = Kakao;
-	  			this.kakao.init('d875beadbeaca371a2a21d629017b4f4');
+	  			Kakao.init('d875beadbeaca371a2a21d629017b4f4');
+	      Kakao.Auth.login({
+	       success: function(authObj) {
+	       //로그인 성공시, API를 호출합니다.
+	        Kakao.API.request({
+	            url: '/v1/user/me',
+	            success: function(res) {
+	              var parsing_res = JSON.stringify(res);
+	              kakaoModule.registerUser(parsing_res);
+	              //user data rest api send
+	              //ajax run when use get, post
+	            },
+	            fail: function(error) {
+	              alert(JSON.stringify(error));
+	            }
+	          });
+	        },
+	       fail: function(err) {
+	          alert(JSON.stringify(err));
+	        }
+	      });        
 	  		};      
 
 		},
-		sendKakaoLink : function(){
-			this.kakaoScript.onload = function () {	
-	  			Kakao.Link.sendTalkLink({
-	    	      label: '2048',
-	    	      image: {
-	    	        src: 'test',
-	    	        width: '300',
-	    	        height: '200'
-	    	      },
-	    	      webButton: {
-	    	        text: 'test',
-	    	        url:  'test'// 앱 설정의 웹 플랫폼에 등록한 도메인의 URL이어야 합니다.
-	    	      }
-	    	    });
-	    	} 
-		}
+		sendKakaoLink : function(url, text){
+	  	Kakao.Link.sendTalkLink({
+	        label: kakaoModule.arachne.game.title,
+	        image: {
+	          src: kakaoModule.arachne.game.image,
+	          width: '300',
+	          height: '200'
+	        },
+	        webButton: {
+	          text: text,
+	          url:  url// 앱 설정의 웹 플랫폼에 등록한 도메인의 URL이어야 합니다.
+	        }
+	      }); 	
+		},
+	  registerUser : function(user_data){
+	    var domain = document.domain;
+	    var port = location.port;
+	    var url = "http://"+domain+":"+port;
+	    var json_data = JSON.parse(user_data);
+	    kakaoModule.ID = json_data.id;
+	    kakaoModule.NICKNAME = json_data.properties.nickname;
+	    kakaoModule.THUMBNAIL_IMAGE = json_data.properties.thumbnail_image;
+	    kakaoModule.MESSENGER = 'kakao';
+	    var body = {
+	      "ID" : kakaoModule.ID,
+	      "NICKNAME" : kakaoModule.NICKNAME,
+	      "THUMBNAIL_IMAGE" : kakaoModule.THUMBNAIL_IMAGE,
+	      "MESSENGER" : kakaoModule.MESSENGER
+	    }
+	  
+	    $.ajax({
+	      url: "http://"+domain+":"+port +'/user',
+	      type: 'PUT',
+	      datatype : 'json',
+	      data: body,
+	      success: function(result) {
+	      },
+	      error: function (XMLHttpRequest, textStatus, errorThrown) {
+	        alert(textStatus);
+	      }
+	    });
+	  }
+
 	}
 
-	module.exports = KakaoLink;
+	module.exports = KakaoModule;
+
+/***/ },
+/* 2 */
+/***/ function(module, exports) {
+
+	var Game = function(){
+		this.title = '';
+		this.desc = '';
+		this.image = '';
+		this.roomKey = '';
+	}
+
+	Game.prototype.constructor = Game;
+
+	module.exports = Game;
+
+
 
 /***/ }
 /******/ ]);
