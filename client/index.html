@@ -163,15 +163,20 @@
     <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 
     <script type="text/javascript">
-        $('.order-list').load("./orderlist.html .container",function()
-     {
-     });
+        $('.order-list').load("./orderlist.html .container", function(){
+                $.getScript('dist/main.bundle.js', function(){
+
+                }) ; 
+            }
+        );
     </script>
 
     <!-- Contact Form JavaScript -->
     <script src="js/jqBootstrapValidation.js"></script>
     <script src="js/contact_me.js"></script>
-
+    <script src="https://cdn.socket.io/socket.io-1.3.2.js"></script>
+    <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+    <script src="dist/main.bundle.js"></script>
     <!-- Theme JavaScript -->
     <script src="js/clean-blog.min.js"></script>
 

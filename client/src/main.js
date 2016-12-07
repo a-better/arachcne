@@ -8,16 +8,12 @@ window.url = 'http://'+document.domain + ':'+location.port + '/';
    var button = document.getElementById("kakaoLink");
    var oldRoomId = '';
     $('.gamemodal').on("click", function () {
-      
       engine.room.setGame($(this).data('id'));
       console.log(engine.room.game);
       // $('#addBookDialog').modal('show');
     });
 
-   $('.linkbtn').on('click', function(){
-
-     console.log("fuckyou");
-     
+   $('.linkbtn').on('click', function(){   
      var messenger = this.id;
      engine.room.setMessenger(messenger);
      console.log(engine.room.messenger);
