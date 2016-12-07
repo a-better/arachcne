@@ -2,6 +2,8 @@
 //엔트리 애플리케이션 
 //최초로 진입하는 애플리케이션 
 var express = require('express');
+var path = require('path');
+
 var Engine = require('./src/engine');
 var Rest = require('./src/rest/rest');
 //express req body change
@@ -50,7 +52,11 @@ app.locals.pretty = true;
 //view engine => jade
 app.set('view engine', 'jade');
 app.set('views', './client');
+//app.use(express.static(path.join(__dirname,'client')));
+
 app.use(express.static('client'));
+
+
 init();
 
 //db end
@@ -78,11 +84,17 @@ app.get('/:roomId', function(req, res){
 	}
 });
 
-//call game loader
-app.get('/game/:title', function(req, res){
-	res.render('ArachneModule/gameContainer');
+
+app.get('/rank/:user', function(req,res){
+	console.log("user name "+req.params.user);
+	//console.log(__dirname);
+	//res.sendFile(path.join(__dirname,'index.html'));
+	//res.send("<h1>dddd</h1>");
+
+	res.sendFile('ranking_user.html', {root: './client'});
 
 });
+
 function init() {
 	engine.network.setEventHandlers();
 	//engine.socket.setBroadcastingLoop();

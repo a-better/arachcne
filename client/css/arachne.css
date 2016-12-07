@@ -2,9 +2,15 @@
  * arachne css tag
  */
 
- .thirdsize {
+.image_sum{
+  max-width: 80% ;
+width: expression(this.width > 200 ? 200: true) ;
+height: auto ;
+}
+
+.thirdsize {
  	width: 33.3% height: 50%; overflow: hidden;
- }
+}
 
 html,body {
   height: 100%;
@@ -39,7 +45,8 @@ a:hover { transition: all 200ms ease-in-out; }
 }
 
 .SearchGame {
-      display: block;
+    display: inline-block;
+    float: right;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     width: 100%;
@@ -54,6 +61,7 @@ a:hover { transition: all 200ms ease-in-out; }
     border-radius: 4px;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
     -webkit-appearance: none;
+
 }
 
 .page-container {
