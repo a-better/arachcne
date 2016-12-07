@@ -6,11 +6,20 @@ var RankService = function(){
 
 RankService.prototype.constructor = RankService;
 
-RankService.prototype.search = function(USER_SEQID, GAME_SEQID){
-	var query = "select * from RANKING where USER_SEQID = "
+RankService.prototype.search = function(GAME_SEQID, USER_SEQID){
+	var query;
+	if(typeof USER_SEQID == 'undefined'){
+		query = "select * from RANKING, USER, GAME where RANKING.GAME_SEQID = "
+				+ "'" + GAME_SEQID +"' AND RANKING.USER_SEQID = USER.SEQ_ID " 
+				+ "AND RANKING.GAME_SEQID = GAME.SEQ_ID" + 
+				" ORDER BY SCORE DESC";
+	}
+	else{
+		query = "select * from RANKING where USER_SEQID = "
 				+ "'" + USER_SEQID +"'"
 				+ "AND GAME_SEQID = "
-				+ "'" + GAME_SEQID +"'"
+				+ "'" + GAME_SEQID +"'";
+	}
 	return mySqlDAO.select(query);			
 }
 
@@ -34,5 +43,6 @@ RankService.prototype.update = function(USER_SEQID, GAME_SEQID, Score){
 	}
 	return mySqlDAO.update(query, values);
 }
+
 
 module.exports = RankService;

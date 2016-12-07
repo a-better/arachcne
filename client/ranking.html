@@ -75,30 +75,23 @@
                     <div class="page-heading">
                         <h1>Arachne Ranking</h1>
                         <hr class="small">
-                        <form class="searchInput" action="/rank/user/" accept-charset="utf-8" name="user" method="get">
-                            <input type="text" name="userName" class="Rankingbox" placeholder="Player Id">
-                            <input type="button" class="Region" onclick="#" value="KR">
-                            <button class="Rankingbutton">
-                                <i class="__spSite __spSite-23"></i>
-                            </button>
-                            <div class="IndexAutoComplete" style="display: none;">
-                                <div class="PlayerListWrap">
-                                    <div class="Tab">
-                                        <div class="Item active">
-                                            <div class="Text">
-                                                <i class="__spSite __spSite-268"></i>
-                                                "  최근검색  "
-                                            </div> == $0
-                                        </div>
-                                        <div class="Item"> == $0
-                                            <div class="Text">
-                                                <i class="__spSite __spSite-244"></i>
-                                                "  즐겨찾기  "
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <form class="searchInput"  accept-charset="utf-8" name="user" method="get">
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                  <button id="messengerDropdownBtn" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"                          aria-expanded="false">Messenger <span class="caret"></span></button>
+                                  <ul id="messengerDropdown" class="dropdown-menu dropdown-menu-right" role="menu">
+                                    <li><a href="#">kakao</a></li>
+                                  </ul>
+                                </div><!-- /btn-group -->
+                                <div class="input-group-btn">
+                                  <button id="gameDropdownBtn" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"                          aria-expanded="false" value='2048'>2048 <span class="caret"></span></button>
+                                  <ul id="gameDropdown" class="dropdown-menu dropdown-menu-right" role="menu">
+                                    <li><a href="#">2048</a></li>
+                                    <li><a href="#">Hextris</a></li>
+                                  </ul>
+                                </div><!-- /btn-group -->
+                                <input type="text" id='userNameInput' class="Rankingbox"   value='' placeholder="Player Nickname">
+                            </div>                                                            
                         </form>
                         <span class="subheading">You can search player's ranking</span>
                     </div>
@@ -106,9 +99,19 @@
             </div>
         </div>
     </header>
-
-    
-    <hr>
+ 
+    <table id="rankingTable" class="table">
+      <thead>
+        <tr>
+          <th>Ranking</th>
+          <th>NICKNAME</th>
+          <th>MESSENGER</th>
+          <th>GAME</th>
+        </tr>
+      </thead>
+      <tbody id="rankingTableBody">
+      </tbody>
+    </table>
 
     <!-- Footer -->
     <footer>
@@ -156,7 +159,7 @@
     <!-- Contact Form JavaScript -->
     <script src="js/jqBootstrapValidation.js"></script>
     <script src="js/contact_me.js"></script>
-
+    <script src="js/ajaxSearch.js"></script>
     <!-- Theme JavaScript -->
     <script src="js/clean-blog.min.js"></script>
 
